@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+        {{message}} <button v-on:click="changeMessage">ChangeMess</button> <br />
+        {{ name }} {{surname}}<br />
+        {{var1+var2}}<br />
+        {{5**2}}<br />
+        {{num1+num2+num3}}<br />
+        {{numArr.reduce((sum, el)=>sum+=el)}}<br />
+        <br />
+        <button v-on:click="addItem">AddItem</button>
+        <button v-on:click="removeFirstItem">remove first</button>
+        <button v-on:click="removeLastItem">remove last</button>
+        <button v-on:click="reverseItems">reverse</button>
+        <button v-on:click="sortItems">sort</button>
+        <button v-on:click="filterFirst10">filterFirst10</button>
+        <ul>
+            <li v-for="(item, index) in items">{{item}} - {{index}}</li>
+        </ul>
+        <ul>
+            <li v-for="(item, index, num) in users">{{index}} - {{item}} - {{num+1}}</li>
+        </ul>
+        <ul>
+            <li v-for="item in hrefs">
+                <a :href="item.href">{{item.text}}</a>
+            </li>
+        </ul>
+        <ul>
+            <li v-for="item in products">
+                {{item.name}}, цена: {{item.price}}, количество: {{item.quantity}}, сумма: {{item.quantity *
+                item.price}}
+            </li>
+        </ul>
+        Tag template:<br />
+        <ul>
+            <template v-for="item in items">
+                <li>item - {{item}}</li>
+                <li>li2</li>
+                <li>li 3</li>
+            </template>
+        </ul>
+        <ul>
+            <li v-for="item in products">
+                {{item}}
+            </li>
+        </ul>
+        <button v-on:click="getSumm" v-on:mouseout="sayHello">
+            allert!
+        </button>
+        <p v-on:mouseover="sayHello" v-on:mouseout="getSumm">
+            mouseOver allert
+        </p>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
