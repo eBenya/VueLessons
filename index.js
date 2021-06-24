@@ -3,50 +3,111 @@ var app = new Vue({
     data: {
         someText: 'some text',
         someTextWithTags: '<a v-on:click.prevent="showText" href="#">SomeLinkTagText</a>',
-        name: '',
-        surname: '',
-        patronymic: '',
-        someNumber: 0,
         textIsShow: true,
-        buttonInfo: 'kek',
+        buttonInfo: '',
+        tasks: [
+            { text: 'Test task1', isCompleted: false, isEdited: false, date: '22.06.2021' },
+            { text: 'Test task2', isCompleted: false, isEdited: false, date: '24.06.2021' },
+            { text: 'Test task3', isCompleted: false, isEdited: false, date: '24.06.2021' },
+            { text: 'Test task4', isCompleted: true, isEdited: false, date: '23.06.2021' }
+        ],
+        newTaskText: '',
+        takeDate: (new Date()).toLocaleDateString(),
+        useCurrentDate: false,
+
+        questions1: [
+            {
+                question: 'Вопрос 1',
+                answer: 'Ответ 1'
+            },
+            {
+                question: 'Вопрос 2',
+                answer: 'Ответ 2'
+            },
+            {
+                question: 'Вопрос 3',
+                answer: 'Ответ 3'
+            },
+        ],
+        styles: {
+            color: 'red',
+        },
+
+        questions2: [
+            {
+                question: 'Вопрос 1',
+                answers: [
+                    'Ответ 1',
+                    'Ответ 2',
+                    'Ответ 3',
+                    'Ответ 4',
+                    'Ответ 5',
+                ],
+                right: 3, // номер правильного ответа
+            },
+            {
+                question: 'Вопрос 2',
+                answers: [
+                    'Ответ 1',
+                    'Ответ 2',
+                    'Ответ 3',
+                    'Ответ 4',
+                    'Ответ 5',
+                ],
+                right: 1, // номер правильного ответа
+            },
+            {
+                question: 'Вопрос 3',
+                answers: [
+                    'Ответ 1',
+                    'Ответ 2',
+                    'Ответ 3',
+                    'Ответ 4',
+                    'Ответ 5',
+                ],
+                right: 5, // номер правильного ответа
+            },
+        ]
     },
     methods: {
         showText: function () {
             this.buttonInfo = 'kek';
             this.textIsShow = !this.textIsShow;
         },
-        onClickEventHandler: () => {
-            alert('You tap to the SomeButton');
+        removeTask(taskNumber) {
+            this.tasks.splice(taskNumber, 1);
         },
-        changeText: function (text) {
-            this.someText = text;
+        addNewTask() {
+            let d;
+            if (this.useCurrentDate) {
+                d = (new Date()).toLocaleDateString();
+            }
+            else {
+                d = this.localDate;
+            }
+            this.tasks.push({ text: this.newTaskText, isCompleted: false, isEdited: false, date: d });
+            this.newTaskText = '';
         },
-        testEvent: (e) => {
-            console.log(e);
-            alert('You tap to ' + e.target.firstChild.data);
-        },
-        onClickKeyBoardHandler: function (event) {
-            this.buttonInfo = `key code - ${event.which}; key - ${event.key}`;
-            //this.forceUpdate();
-        },
-        onClickMouseHandler: function(event) {
-            let mouseButton = '';
-            if (event.which === 1)
-                mouseButton = 'LBM';
-            else if (event.which === 2)
-                mouseButton = 'RBM';
-            else if (event.which === 3)
-                mouseButton = 'MBM';
 
-            this.buttonInfo = `key code - ${event.which}; key - ${mouseButton}`;
-        }
+        checkAnswer(item, event) {
+            if (event.target.value === item.answer) {
+                event.target.style.background = 'green';
+            }
+            else {
+                event.target.style.background = 'red';
+            }
+        },
+        checkAnswer2(item, event) {
+            if (item.right.toString() == event.target.value)
+                event.target.parentNode.style.color = 'green';
+            else {
+                event.target.parentNode.style.color = 'red';
+            }
+        },
     },
     computed: {
-        fullName: function () {
-            return `${this.surname} ${this.name} ${this.patronymic}`;
-        },
-        sqrSomeNumber: function () {
-            return this.someNumber ** 2;
+        localDate: function () {
+            return this.takeDate.split('-').reverse().join('.');
         }
     },
 });

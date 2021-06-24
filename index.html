@@ -10,38 +10,52 @@
 
     <div id="app">
         <div>
-            <input v-model="name">
-            <input v-model="surname">
-            <input v-model="patronymic">
-            <p>
-                name: {{name}} surname: {{surname}} patronymic: {{patronymic}}
+            See tasks for <input type="date" v-model="takeDate"> day.
+            {{localDate}}
+            <ul>
+                <li v-for="(item, index) in tasks" v-if="item.date === localDate">
+                    <p v-if="!item.isCompleted">
+                        <input type="checkbox" v-model="item.isCompleted">
+                        <span v-if="!item.isEdited" v-on:dblclick="()=>item.isEdited = true">
+                            {{item.text}}; {{item.date}}
+                        </span>
+                        <span v-else v-on:keydown.enter="()=>item.isEdited = false">
+                            <input v-model="item.text">
+                        </span>
+                    </p>
+                    <p v-else>
+                        <del>{{item.text}};</del> {{item.date}}
+                        <button v-on:click="removeTask(index)">x</button>
+                    </p>
+                </li>
+            </ul>
+            <input v-model="newTaskText" v-on:keydown.enter="addNewTask" placeholder="CreateNewTask">
+            <span>
+                <input type="checkbox" v-model="useCurrentDate" placeholder="CurrentDate">use current date
+            </span>
+        </div>
+
+        <hr>
+
+        <div>
+            <p v-for="(item) in questions1">
+                Question:{{item.question}}<br>
+                Answer:<template>
+                    <input v-on:keydown.enter="checkAnswer(item, $event)">
+                </template>
+
             </p>
-            <p>
-                full name: {{fullName}}
-            </p>
-            <input v-model="someNumber">
-            <p>num:{{someNumber}}</p>
-            <p>sqr:{{sqrSomeNumber}}</p>
-            <p>
-                <a v-on:click.prevent="showText" href="#">Push!!!</a>
-            <p v-if="textIsShow">{{someText}}</p>
-            <button v-on:click.once="onClickEventHandler">SomeButton</button>
-            </p>
-            <p v-once>
-                Some text: {{someText}}
-                <button v-on:click="changeText('kekPuc')">change text</button>
-            </p>
-            <p v-html="someTextWithTags" v-if="textIsShow" v-html> </p>
-            <p>
-                <button v-on:click="testEvent($event)">Event button</button>
-            </p>
-            <p>
-                <input v-model="someText" v-on:keyup.enter="showText"> <br />
-                <template v-if="textIsShow"> {{someText}} </template> <br />
-                <a href="#" v-on:click.prevent.ctrl="showText">SomeHref</a> <br />
-            <p>
-                <a href="#" v-on:mousedown='onClickMouseHandler' v-on:keydown.prevent="onClickKeyBoardHandler">How button will be push</a> <br />
-                {{buttonInfo}}
+        </div>
+
+        <hr>
+
+        <div>
+            <p v-for="(item, qIndex) in questions2">
+                Question: {{item.question}} <br>
+                <template v-for="(ans, aIndex) in item.answers">
+                    <input type="radio"  v-on:click="checkAnswer2(item, $event)"
+                        v-bind:value="aIndex+1" v-bind:name="qIndex">{{ans}}
+                </template>
             </p>
         </div>
     </div>
