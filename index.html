@@ -9,110 +9,40 @@
 <body>
 
     <div id="app">
-        <button v-on:click="executeAllert(text)"></button><br />
-        text - {{text}} <button v-on:click="upperCaseFirstAndLast">upper case characters, frist and last</button> <br />
-        {{message}} <button v-on:click="changeMessage">ChangeMess</button> <br />
-        {{ name }} {{surname}}<br />
-        {{var1+var2}}<br />
-        {{5**2}}<br />
-        {{num1+num2+num3}}<br />
-        {{numArr.reduce((sum, el)=>sum+=el)}}<br />
-        <br />
-
-        <button v-on:click="addItem">AddItem</button>
-        <button v-on:click="removeItem(0)">remove first</button>
-        <button v-on:click="removeItem(items.length-1)">remove last</button>
-        <button v-on:click="reverseItems">reverse</button>
-        <button v-on:click="sortItems">sort</button>
-        <button v-on:click="filterFirst10">filterFirst10</button>
-        <ul>
-            <li v-for="(item, index) in items" v-on:click="removeItem(index)">{{item}} - {{index}}</li>
-        </ul>
-
-        <ul>
-            <li v-for="(item, index, num) in users">{{index}} - {{item}} - {{num+1}}</li>
-        </ul>
-
-        <ul>
-            <li v-for="item in hrefs">
-                <a :href="item.href">{{item.text}}</a>
-            </li>
-        </ul>
-
-        <ul>
-            <li v-for="item in products">
-                {{item.name}}, цена: {{item.price}}, количество: {{item.quantity}}, сумма: {{item.quantity *
-                item.price}}
-            </li>
-        </ul>
-
-        Tag template:<br />
-        <ul>
-            <template v-for="item in items">
-                <li>item - {{item}}</li>
-                <li>li2</li>
-                <li>li 3</li>
-            </template>
-        </ul>
-        <ul>
-            <li v-for="item in products">
-                {{item}}
-            </li>
-        </ul>
-
-        <button v-on:click="getSumm([num1, num2, num3])">
-            allert!
-        </button>
-        <p v-if="showPar" v-on:mouseover="sayHello" v-on:mouseout="getSumm([num1, num2, num3])">
-            mouseOver allert <button v-on:click="showToogleMode">hide</button>
-        </p>
-        <button v-if="!showPar" v-on:click="showToogleMode">show</button>
-
-        <ul>
-            <li v-for="(item, index) in numArr" v-on:click="squareItem(index)">{{item}}</li>
-        </ul>
-
-
-        <p v-if="showPar" v-on:click="showToogleMode">Paragraph1</p>
-        <p v-if="!showPar" v-on:click="showToogleMode">Paragraph2</p>
-
-        <p>
-            <input type="number" v-model="vorkNum" />
-            <button v-on:click="calcSqrt">Найти корень квадратный</button><br />
-            result: {{resultSqrNum}} <br /><br />
-            <input v-on:click="switchInput(true)" v-model="input1">
-            <input v-on:click="switchInput(false)" v-model="input2">
-            <button v-on:click="confirmInputChange">Conf</button>
-        </p>
-
         <div>
-            <textarea v-model="textAreaLongString"></textarea>
-            <button v-on:click="createWordArray">generate UL</button>
-            <ul>
-                <li v-for="item in textAreaWordsArray">{{item}}</li>
-            </ul>
-        </div>
-        <div>
-            Radio:<br />
-            <input name="radioKek" type="radio" v-model="radioType" value="one">
-            <input name="radioKek" type="radio" v-model="radioType" value="two">
-            <input name="radioKek" type="radio" v-model="radioType" value="three">
-            <p v-if="radioType === 'one'">First paragraph</p>
-            <p v-else-if="radioType === 'two'">Second paragraph</p>
-            <p v-else>Last paragraph</p>
-        </div>
-        <div>
-            Selects:<br />
-            <select v-model="selected">
-                <option v-for="item in items">{{item}}</option>
-            </select>
-            <p>You take {{selected}}</p>
-        </div>
-        <div>
-            Disabled: <br />
-            <input v-bind:disabled="isDisabled">
-            <button v-on:click="()=>this.isDisabled = !this.isDisabled">{{isDisabled ? 'Unlock' : 'Lock'}}</button>
-            <input type="checkbox" v-model="isDisabled" placeholder="()=>isDisabled ? 'Unlocked' : 'Locked'">
+            <input v-model="name">
+            <input v-model="surname">
+            <input v-model="patronymic">
+            <p>
+                name: {{name}} surname: {{surname}} patronymic: {{patronymic}}
+            </p>
+            <p>
+                full name: {{fullName}}
+            </p>
+            <input v-model="someNumber">
+            <p>num:{{someNumber}}</p>
+            <p>sqr:{{sqrSomeNumber}}</p>
+            <p>
+                <a v-on:click.prevent="showText" href="#">Push!!!</a>
+            <p v-if="textIsShow">{{someText}}</p>
+            <button v-on:click.once="onClickEventHandler">SomeButton</button>
+            </p>
+            <p v-once>
+                Some text: {{someText}}
+                <button v-on:click="changeText('kekPuc')">change text</button>
+            </p>
+            <p v-html="someTextWithTags" v-if="textIsShow" v-html> </p>
+            <p>
+                <button v-on:click="testEvent($event)">Event button</button>
+            </p>
+            <p>
+                <input v-model="someText" v-on:keyup.enter="showText"> <br />
+                <template v-if="textIsShow"> {{someText}} </template> <br />
+                <a href="#" v-on:click.prevent.ctrl="showText">SomeHref</a> <br />
+            <p>
+                <a href="#" v-on:mousedown='onClickMouseHandler' v-on:keydown.prevent="onClickKeyBoardHandler">How button will be push</a> <br />
+                {{buttonInfo}}
+            </p>
         </div>
     </div>
 
